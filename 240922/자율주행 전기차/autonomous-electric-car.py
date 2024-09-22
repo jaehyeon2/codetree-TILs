@@ -9,7 +9,7 @@ passenger_count = 0
 passenger_num = 0
 
 s_array = [[0]*n for _ in range(n)]
-e_array = [[0]*n for _ in range(n)]
+e_array = [0]
 
 for _ in range(n):
     array.append(list(map(int, input().split())))
@@ -21,7 +21,8 @@ ty-=1
 for num in range(1, m+1):
     sx, sy, ex, ey = map(int, input().split())
     s_array[sx-1][sy-1]=num
-    e_array[ex-1][ey-1]=num
+    e_array.append([ex-1, ey-1])
+
 
 def find_start():
     temp = []
@@ -49,6 +50,7 @@ def find_start():
     if (len(temp)==0):
         return -1, -1, -1, -1
     temp.sort(key=lambda x:(x[2], x[0], x[1]))
+
     return temp[0][0], temp[0][1], temp[0][2], temp[0][3]
 
 def find_destination(dest_num):
@@ -68,7 +70,7 @@ def find_destination(dest_num):
                 continue
             visited[nx][ny] = visited[x][y]+1
             q.append((nx, ny))
-            if (e_array[nx][ny]==dest_num):
+            if (nx==e_array[dest_num][0] and ny==e_array[dest_num][1]):
                 return nx, ny, visited[nx][ny]
     return -1, -1, -1
 
@@ -97,7 +99,6 @@ while True:
             break
         else:
             fuel+=l
-            e_array[tx][ty]=0
             passenger_count+=1
 
 if passenger_count!=m:
